@@ -36,13 +36,25 @@ app.factory("workFactory", ['$http', function($http){
 
 	o.removeWork = function(work){
 		return $http.post('/works/'+work._id+'/remove').success(function(data){
-			var index = o.works.indexOf(o.works.find(function(element){
-				return element._id === data._id;
-			}));
+			var index = o.works.indexOf(work);
 			if(index > -1){
 				o.works.splice(index,1);
 			}
 		});
+	};
+
+	o.incrementPriority = function(work){
+		return $http.put('/works/'+work._id+'/increment').success(function(data){
+			work.priority += 1;
+		});
+	};
+
+	o.decrementPriority = function(work){
+		if(work.priority > 0){
+			return $http.put('/works/'+work._id+'/decrement').success(function(data){
+				work.priority -= 1;
+			});
+		}
 	}
 
 	return o;
@@ -60,6 +72,16 @@ app.controller("workController",["$scope", "workFactory",function($scope, workFa
 	$scope.removeWork = function(work){
 		if(work){
 			workFactory.removeWork(work);
+		}
+	};
+	$scope.incrementPriority = function(work){
+		if(work){
+			workFactory.incrementPriority(work);
+		}
+	};
+	$scope.decrementPriority = function(work){
+		if(work){
+			workFactory.decrementPriority(work);
 		}
 	}
 }]);

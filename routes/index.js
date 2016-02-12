@@ -41,4 +41,18 @@ router.post('/works/:work/remove', function(req, res, next){
 	});
 });
 
+router.put('/works/:work/increment', function(req, res, next){
+	req.work.incrementPriority(function(err, work){
+		if(err){return next(err);}
+		return res.json(work);
+	});
+});
+
+router.put('/works/:work/decrement', function(req, res, next){
+	req.work.decrementPriority(function(err, work){
+		if(err){return next(err);}
+		return res.json(work);
+	})
+})
+
 module.exports = router;

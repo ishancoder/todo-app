@@ -19,10 +19,23 @@
 					<h1><span style="color:red">To</span>Do App</h1>
 				</div>
 			</div>
-			<div class="row text-center card" ng-repeat="work in works">
-				<div class="col-md-12">
+			<div class="row text-center card" ng-repeat="work in works | orderBy: '-priority'">
+				<div class="col-md-4">
+					<strong><span class="pull-left">Importance: {{work.priority}}</span></strong>
+				</div>
+				<div class="col-md-4">
 					{{work.work}}
-					<span style="color:red" class="glyphicon glyphicon-remove pull-right" ng-click="removeWork(work)"></span>
+				</div>
+				<div class="col-md-4 pull-right">
+					<button class="btn btn-default" ng-click="incrementPriority(work)">
+					<span style="color:green" class="glyphicon glyphicon-arrow-up"></span>
+					</button>
+					<button class="btn btn-default" ng-click="decrementPriority(work)">
+						<span style="color:green" class="glyphicon glyphicon-arrow-down"></span>
+					</button>
+					<button class="btn btn-default" ng-click="removeWork(work)">
+					<span style="color:red" class="glyphicon glyphicon-remove"></span>
+					</button>
 				</div>
 			</div>
 			<form role="form" ng-submit="addWork(currentWork)">
